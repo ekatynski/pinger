@@ -7,7 +7,7 @@ if __name__ == "__main__":
     # delete all contents of output folder if present
     if os.path.exists("output"):
         shutil.rmtree("output")
-        os.makedirs("output")
+    os.makedirs("output")
 
     # delete the config file if it exists
     try:
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     # write shell file to run all ping requests in parallel
     with open('pinger.sh', 'w') as f:
         for site in websites:
-            f.write(f'ping -w{ping_count} {site} >> {site.split(".")[0]+"_ping.txt"} &\n')
+            f.write(f'ping -w{ping_count} {site} >> output/{site.split(".")[0]+"_ping.txt"} &\n')
 
     # add execute permission for the new shell file
     st = os.stat('pinger.sh')

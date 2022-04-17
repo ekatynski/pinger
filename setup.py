@@ -9,7 +9,7 @@ if __name__ == "__main__":
         shutil.rmtree("output")
     os.makedirs("output")
 
-    # delete the config file if it exists
+    # delete the pinger script if it exists
     try:
         os.remove('pinger.sh')
     except FileNotFoundError:

@@ -66,6 +66,7 @@ def manager_script_setup():
         f.write('\n\techo "WAITING"')
         f.write(f'\n\tsleep {operation_delay}h')
         f.write('\n\tfor file in *.txt; do')
+        f.write('\n\t\techo `date` >> $file')
         f.write('\n\t\techo "" >> "$file"')
         f.write('\n\tdone')
         f.write('\ncount=$((count+1))')

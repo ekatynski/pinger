@@ -1,13 +1,11 @@
 import os
-import shutil
+import dir_setup
 import stat
 
 # set up output directory and remove any prior scripts 
-def dir_setup():
+def setup():
     # delete all contents of output folder if present
-    if os.path.exists("output"):
-        shutil.rmtree("output")
-    os.makedirs("output")
+    dir_setup.dir_setup('output')
 
     # delete the pinger script if it exists
     try:
@@ -84,6 +82,6 @@ def manager_script_setup():
     os.chmod('manager.sh', st.st_mode | stat.S_IEXEC)
 
 if __name__ == "__main__":
-    dir_setup()
+    setup()
     ping_script_setup()
     manager_script_setup()

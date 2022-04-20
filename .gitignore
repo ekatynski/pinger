@@ -1,3 +1,4 @@
 pinger.sh
 manager.sh
 output/
+__pycache__/:

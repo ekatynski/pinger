@@ -48,8 +48,8 @@ def read_file(filename):
 
 def plot(ping_frame):
     for category in ['min', 'max', 'avg']:
-        #pd.DataFrame.plot(kind='')
-        pass
+        ping_frame.plot(x='timestamp', y=category)
+        
 
 if __name__ == "__main__":
     dir_setup.dir_setup("output/results")
@@ -71,6 +71,9 @@ if __name__ == "__main__":
             for item in ping_results[website_name]['data']:
                 new_row = {'name': website_name.split('_')[0], 'min': item['stats']['min'], 'max': item['stats']['max'], 'avg': item['stats']['avg'], 'timestamp': item['date']}
                 frame_results = frame_results.append(new_row, ignore_index=True)
-        
+    
+    frame_results.plot(x='timestamp', y='avg')
+    plt.show()
+
     print(frame_results)
     

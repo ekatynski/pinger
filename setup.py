@@ -77,6 +77,7 @@ def manager_script_setup():
         f.write('\n\tfi')
         f.write('\ncount=$((count+1))')
         f.write('\ndone')
+        f.write('\npython3 calculate.py')
 
     # add execute permission for the new shell file
     st = os.stat('manager.sh')

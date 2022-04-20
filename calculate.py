@@ -1,10 +1,12 @@
+from audioop import avg
+from logging.handlers import DatagramHandler
 import os
-import matplotlib
+import pandas as pd
+# import matplotlib
 from dateutil import parser
-from pandas import DataFrame
+
 
 import dir_setup
-
 
 def read_file(filename):
     filename = 'output/' + filename
@@ -46,21 +48,29 @@ def read_file(filename):
 
     # calculate average rtt
     result['avg'] = round(result['avg'] / result['requests'], 3)
-    return website_name, result
+    return result
 
 if __name__ == "__main__":
     dir_setup.dir_setup("output/results")
     directory = os.fsencode('output')
     
     ping_results = {}
+    frame_results = pd.DataFrame(columns=['name', 'min', 'max', 'avg', 'timestamp'])
 
     # iterate through all output ping data files for analysis
     for file in os.listdir(directory):
         filename = os.fsdecode(file)
-        website_name = filename.split('.')[0]
-
-        # read from the file and extract the website, ping timestamps, loss rate, and RTT stats into a dict per site
         if filename.endswith('.txt'):
+            website_name = filename.split('.')[0]
+
+            # read from the file and extract the website, ping timestamps, loss rate, and RTT stats into a dict per site
             ping_results[website_name] = read_file(filename)
         
-    print("Done!")
+            # insert website data into dataframe
+            for item in ping_results[website_name]['data']:
+                for request in item['stats']:
+                    new_row = {'name': website_name.split('_')[0], 'min': item['stats']['min'], 'max': item['stats']['max'], 'avg': item['stats']['avg'], 'timestamp': item['date']}
+                    frame_results = frame_results.append(new_row, ignore_index=True)
+        
+    print(frame_results)
+    

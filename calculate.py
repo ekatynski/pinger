@@ -1,6 +1,8 @@
-from asyncore import read
 import os
+import matplotlib
 from dateutil import parser
+from pandas import DataFrame
+
 import dir_setup
 
 
@@ -57,7 +59,7 @@ if __name__ == "__main__":
         filename = os.fsdecode(file)
         website_name = filename.split('.')[0]
 
-        # read from the file and extract the website, ping timestamps, loss rate, and RTT stats
+        # read from the file and extract the website, ping timestamps, loss rate, and RTT stats into a dict per site
         if filename.endswith('.txt'):
             ping_results[website_name] = read_file(filename)
         

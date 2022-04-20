@@ -1,11 +1,7 @@
-from audioop import avg
-from logging.handlers import DatagramHandler
 import os
 import pandas as pd
-# import matplotlib
+import matplotlib.pyplot as plt
 from dateutil import parser
-
-
 import dir_setup
 
 def read_file(filename):
@@ -50,6 +46,11 @@ def read_file(filename):
     result['avg'] = round(result['avg'] / result['requests'], 3)
     return result
 
+def plot(ping_frame):
+    for category in ['min', 'max', 'avg']:
+        #pd.DataFrame.plot(kind='')
+        pass
+
 if __name__ == "__main__":
     dir_setup.dir_setup("output/results")
     directory = os.fsencode('output')
@@ -68,9 +69,8 @@ if __name__ == "__main__":
         
             # insert website data into dataframe
             for item in ping_results[website_name]['data']:
-                for request in item['stats']:
-                    new_row = {'name': website_name.split('_')[0], 'min': item['stats']['min'], 'max': item['stats']['max'], 'avg': item['stats']['avg'], 'timestamp': item['date']}
-                    frame_results = frame_results.append(new_row, ignore_index=True)
+                new_row = {'name': website_name.split('_')[0], 'min': item['stats']['min'], 'max': item['stats']['max'], 'avg': item['stats']['avg'], 'timestamp': item['date']}
+                frame_results = frame_results.append(new_row, ignore_index=True)
         
     print(frame_results)
     

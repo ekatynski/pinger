@@ -1,5 +1,6 @@
 pinger.sh
 manager.sh
+.idea/
 output/
 __pycache__/
 pinger_env/

@@ -7,3 +7,5 @@ To use, run setup.py in python3. You will be prompted for the number of websites
 After this, you will be prompted for the paramaters of the full test you wish to run. Enter the delay between ping exercises and the number of exercises you wish to run.
 
 After running setup.py, you will have a shell script to run ping requests asynchronously and simultaneously to each website in question. You will also have a script to govern the aforementioned ping request script. Their outputs will be inside a folder called 'output', each in their own respective text file. To run, simply type "./manager.sh" and wait for the requests to complete. Execution permission should already be enabled for both files.
+
+After the ping requests complete, calculate.py will plot all of the data in question as well as print descriptive statistics for all of the ping requests to the console.

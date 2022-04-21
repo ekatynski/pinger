@@ -1,13 +1,11 @@
 import os
-import shutil
+import dir_setup
 import stat
 
 # set up output directory and remove any prior scripts 
-def dir_setup():
+def setup():
     # delete all contents of output folder if present
-    if os.path.exists("output"):
-        shutil.rmtree("output")
-    os.makedirs("output")
+    dir_setup.dir_setup('output')
 
     # delete the pinger script if it exists
     try:
@@ -38,6 +36,7 @@ def ping_script_setup():
         i = 1
         f.write('#!/bin/bash\n')
         for site in websites:
+            # author the ping requests
             f.write(f'ping -w{ping_count} {site} >> output/{site.split(".")[0]+"_ping.txt"}')
             # limit the number of scripts run in parallel
             if i % parallel_count != 0:  
@@ -57,31 +56,32 @@ def manager_script_setup():
 
     # write shell file to run all ping requests in parallel
     with open('manager.sh', 'w') as f:
-        # create a loop to run the pinger script and then delay for a predetermined number of hours
-        f.write('count=1')
-        f.write(f'\nwhile [ $count -le {operation_count} ]')
+        f.write('count=1') # create a loop to run the pinger script and then delay for a predetermined number of hours
+        f.write(f'\nwhile [ $count -le {operation_count} ]') # set loop for the number of requested executions
         f.write('\ndo')
         f.write('\n\techo "RUN: $count"')
-        f.write('\n\tbash pinger.sh')
-        f.write('\n\tfor file in output/*.txt; do')
-        f.write('\n\t\techo `date` >> $file')
+        f.write('\n\tbash pinger.sh') # execute ping requests
+        f.write('\n\tsleep 2s') # delay to ensure datestamp is placed after ping statistics
+        f.write('\n\tfor file in output/*.txt; do') # datestamp and newline at the end of each statistic file
+        f.write('\n\t\techo "DATE: " `date` >> $file')
         f.write('\n\t\techo "" >> "$file"')
         f.write('\n\tdone')
         f.write(f'\n\tif [ $count -ne {operation_count} ]')
         f.write('\n\tthen')
         f.write('\n\t\techo "WAITING"')
-        f.write(f'\n\t\tsleep {operation_delay}h')
+        f.write(f'\n\t\tsleep {operation_delay}h') # if not the last round of ping requests, wait the specified time period in hours
         f.write('\n\telse')
         f.write('\n\t\techo "DONE"')
         f.write('\n\tfi')
         f.write('\ncount=$((count+1))')
         f.write('\ndone')
+        f.write('\npython3 calculate.py') # call calculation script to tabulate results
 
     # add execute permission for the new shell file
     st = os.stat('manager.sh')
     os.chmod('manager.sh', st.st_mode | stat.S_IEXEC)
 
 if __name__ == "__main__":
-    dir_setup()
+    setup()
     ping_script_setup()
     manager_script_setup()

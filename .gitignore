@@ -1,3 +1,5 @@
 pinger.sh
 manager.sh
 output/
+__pycache__/
+pinger_env/

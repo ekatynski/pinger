@@ -1,6 +1,16 @@
 # pinger
 
-An attempt to automate a data-collection function for a networking class.
+An attempt to automate a data-collection function for a networking class. The homework assignment wasn't mine, but I like the idea of making a project complete itself.
+
+Before running, be sure to install the necessary dependencies :
+
+```
+
+pip install -r requirements.txt
+
+```
+
+I would recommend doing this in a virtual environment, but I trust your judgement.
 
 To use, run setup.py in python3. You will be prompted for the number of websites and the respective URLs you wish to ping. Please skip the "www." in your URLs but feel free to include any extensions after your TLD. Note: multiple pings to the same site may result in errors, the output files are named using prior to the TLD and this may cause name overwrites.
 

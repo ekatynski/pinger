@@ -3,4 +3,4 @@ manager.sh
 .idea/
 output/
 __pycache__/
-pinger_env/
+venv/

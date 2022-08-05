@@ -55,7 +55,7 @@ def ping_script_setup():
 # set up script to manage runs of ping request script
 def manager_script_setup():
     # collect ping request timing details:
-    operation_delay = int(input('Enter the delay (in hours) between ping operations (max 24): ')) % 25
+    operation_delay = int(input('Enter the delay (in minutes) between ping operations (max 1440): ')) % 1441
     operation_count = int(input('Enter the number of times you wish to run ping operations: '))
 
     # write shell file to run all ping requests in parallel
@@ -73,7 +73,7 @@ def manager_script_setup():
         f.write(f'\n\tif [ $count -ne {operation_count} ]')
         f.write('\n\tthen')
         f.write('\n\t\techo "WAITING"')
-        f.write(f'\n\t\tsleep {operation_delay}h')  # if not the last round of ping requests, wait the specified time
+        f.write(f'\n\t\tsleep {operation_delay}m')  # if not the last round of ping requests, wait the specified time
         f.write('\n\telse')
         f.write('\n\t\techo "DONE"')
         f.write('\n\tfi')

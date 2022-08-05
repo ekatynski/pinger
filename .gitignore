@@ -4,3 +4,4 @@ manager.sh
 output/
 __pycache__/
 venv/
+env/
